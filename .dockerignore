@@ -1,0 +1,10 @@
+.git
+.direnv
+docs
+README.md
+Dockerfile
+compose.yaml
+**/node_modules
+**/dist
+**/*.tsbuildinfo
+**/.eslintcache

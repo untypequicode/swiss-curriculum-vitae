@@ -73,6 +73,9 @@ export function verifierCandidature(donnees: unknown): string | null {
       premiereErreur(
         verifierChamp(c, `enTete.${chemin}`, 'texte', 'string', true),
         verifierChamp(c, `enTete.${chemin}`, 'lien', 'string'),
+        typeof c.lien === 'string' && !/^(https?:|mailto:|tel:)/i.test(c.lien)
+          ? `« enTete.${chemin}lien » doit commencer par https://, http://, mailto: ou tel:`
+          : null,
         verifierChamp(c, `enTete.${chemin}`, 'discret', 'boolean'),
       ),
     ),

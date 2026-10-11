@@ -1,0 +1,17 @@
+services:
+  cv:
+    build: .
+    image: swiss-curriculum-vitae
+    restart: unless-stopped
+    expose:
+      - "8080"
+    read_only: true
+    user: "65534:65534"
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cv.rule=Host(`cv.ethanfacca.fr`)"
+      - "traefik.http.services.cv.loadbalancer.server.port=8080"
