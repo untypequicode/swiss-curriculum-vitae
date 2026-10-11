@@ -3,8 +3,9 @@
 docs
 README.md
 Dockerfile
-compose.yaml
+docker-compose*
 **/node_modules
 **/dist
 **/*.tsbuildinfo
 **/.eslintcache
+.github

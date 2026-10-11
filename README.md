@@ -39,11 +39,24 @@ Le bouton **Éditer** ouvre un panneau avec le JSON du CV. L'aperçu se met à j
 
 Le site est statique. Le `Dockerfile` construit le site avec Node, puis le sert avec [static-web-server](https://static-web-server.net) (environ 17 Mo en tout, sans shell dans l'image finale).
 
+Une GitHub Action (`.github/workflows/docker.yml`) construit l'image à chaque push sur `main` et la publie sur `ghcr.io/untypequicode/swiss-curriculum-vitae` (tags `latest` et le hash du commit). Le `docker-compose.yaml` utilise cette image, sans rien construire sur le serveur :
+
 ```sh
-docker compose up -d --build
+docker compose pull && docker compose up -d
 ```
 
-Le conteneur écoute sur le port interne `8080`, sans HTTPS : c'est le rôle du reverse proxy. Pour l'essayer en local, décommentez `ports` dans `compose.yaml` puis ouvrez `http://localhost:8080`.
+### En local
+
+Pour construire l'image au lieu de la télécharger et ouvrir le port :
+
+```sh
+cp docker-compose.override.yml.example docker-compose.override.yml
+docker compose up --build
+```
+
+Le site est alors sur `http://localhost:8080`. Le fichier `docker-compose.override.yml` est ignoré par git.
+
+### Configuration du serveur
 
 La configuration du serveur est dans `docker/sws.toml` :
 
