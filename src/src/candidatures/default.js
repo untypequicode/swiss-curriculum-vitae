@@ -52,7 +52,15 @@ export const competences = [
 
 export const infosComplementaires = [
   {
-    titre: 'Titre',
+    titre: 'Titre 1',
+    elements: ['Élément 1', 'Élément 2', 'Élément 3'],
+  },
+  {
+    titre: 'Titre 2',
+    elements: ['Élément 1', 'Élément 2', 'Élément 3'],
+  },
+  {
+    titre: 'Titre 3',
     elements: ['Élément 1', 'Élément 2', 'Élément 3'],
   },
 ]

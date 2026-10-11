@@ -6,6 +6,7 @@ import EnTete from '@/components/EnTete.vue'
 import SectionNumerotee from '@/components/SectionNumerotee.vue'
 import EntreeCv from '@/components/EntreeCv.vue'
 import ListeCompetences from '@/components/ListeCompetences.vue'
+import ColonnesDeListes from '@/components/ColonnesDeListes.vue'
 
 import type { Candidature } from '@/types'
 
@@ -64,6 +65,10 @@ const afficherGrille = ref(false)
 
     <SectionNumerotee titre="Compétences">
       <ListeCompetences :competences="cv.competences" />
+    </SectionNumerotee>
+
+    <SectionNumerotee titre="Infos complémentaires">
+      <ColonnesDeListes :colonnes="cv.infosComplementaires" />
     </SectionNumerotee>
   </FeuilleCv>
 </template>
