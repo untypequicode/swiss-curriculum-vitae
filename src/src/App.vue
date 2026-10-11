@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch, watchEffect } from 'vue'
+import { ref, computed, defineAsyncComponent, watch, watchEffect } from 'vue'
 import BarreOutils from '@/components/BarreOutils.vue'
-import EditeurJson from '@/components/EditeurJson.vue'
 import FeuilleCv from '@/components/FeuilleCv.vue'
 import EnTete from '@/components/EnTete.vue'
 import SectionNumerotee from '@/components/SectionNumerotee.vue'
@@ -9,6 +8,9 @@ import EntreeCv from '@/components/EntreeCv.vue'
 import ListeCompetences from '@/components/ListeCompetences.vue'
 import ColonnesDeListes from '@/components/ColonnesDeListes.vue'
 import { candidaturesOriginales, nomsCandidatures } from '@/candidatures'
+
+// L'éditeur (CodeMirror) n'est téléchargé qu'à la première ouverture du panneau
+const EditeurJson = defineAsyncComponent(() => import('@/components/EditeurJson.vue'))
 
 import type { Candidature } from '@/types'
 
