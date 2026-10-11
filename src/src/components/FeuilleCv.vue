@@ -6,7 +6,7 @@ defineProps({
 
 <template>
   <main
-    class="relative my-6 mx-auto p-5 overflow-hidden flex flex-col bg-white text-ink"
+    class="relative my-6 mx-auto p-5 overflow-hidden flex flex-col bg-white text-ink text-[12px] leading-4.25"
     style="width: 210mm; height: 297mm; counter-reset: numero-section"
     id="feuille"
   >
