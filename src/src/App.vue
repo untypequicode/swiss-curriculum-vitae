@@ -5,6 +5,7 @@ import FeuilleCv from '@/components/FeuilleCv.vue'
 import EnTete from '@/components/EnTete.vue'
 import SectionNumerotee from '@/components/SectionNumerotee.vue'
 import EntreeCv from '@/components/EntreeCv.vue'
+import ListeCompetences from '@/components/ListeCompetences.vue'
 
 import type { Candidature } from '@/types'
 
@@ -59,6 +60,10 @@ const afficherGrille = ref(false)
 
     <SectionNumerotee titre="Expériences">
       <EntreeCv v-for="experience in cv.experiences" :key="experience.titre" v-bind="experience" />
+    </SectionNumerotee>
+
+    <SectionNumerotee titre="Compétences">
+      <ListeCompetences :competences="cv.competences" />
     </SectionNumerotee>
   </FeuilleCv>
 </template>

@@ -46,7 +46,8 @@ export const projets = [
 ]
 
 export const competences = [
-  { categorie: 'Catégorie de compétence', detail: 'Détails de la catégorie de compétence' },
+  { categorie: 'Catégorie de compétence 1', detail: 'Détails de la catégorie de compétence' },
+  { categorie: 'Catégorie de compétence 2', detail: 'Détails de la catégorie de compétence' },
 ]
 
 export const infosComplementaires = [
