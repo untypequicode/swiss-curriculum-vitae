@@ -86,3 +86,7 @@ export function useUrlPhoto(photo: () => string | undefined) {
   )
   return url
 }
+
+export const compterPhotos = () => executer<number>('readonly', (magasin) => magasin.count())
+
+export const supprimerPhotos = () => executer('readwrite', (magasin) => magasin.clear())

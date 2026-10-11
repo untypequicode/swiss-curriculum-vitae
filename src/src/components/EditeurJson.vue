@@ -12,7 +12,14 @@ import {
 import { json } from '@codemirror/lang-json'
 import { tags } from '@lezer/highlight'
 import { verifierCandidature } from '@/utils/verifierCandidature'
-import { enregistrerPhoto, nomDePhoto, PREFIXE, redimensionner } from '@/utils/photosLocales'
+import {
+  compterPhotos,
+  enregistrerPhoto,
+  nomDePhoto,
+  PREFIXE,
+  redimensionner,
+  supprimerPhotos,
+} from '@/utils/photosLocales'
 import type { Candidature } from '@/types'
 
 const props = defineProps<{ candidature: Candidature; nom: string; modifiee: boolean }>()
@@ -74,7 +81,29 @@ function remplacerTexte(texte: string, externe: boolean) {
   miseAJourExterne = false
 }
 
+const nombrePhotos = ref(0)
+const actualiserNombrePhotos = async () => {
+  nombrePhotos.value = await compterPhotos().catch(() => 0)
+}
+
+async function viderPhotos() {
+  const n = nombrePhotos.value
+  if (
+    !confirm(
+      `Supprimer ${n} photo${n > 1 ? 's' : ''} enregistrée${n > 1 ? 's' : ''} dans ce navigateur ?`,
+    )
+  )
+    return
+  try {
+    await supprimerPhotos()
+    nombrePhotos.value = 0
+  } catch {
+    erreur.value = 'Impossible de supprimer les photos de ce navigateur'
+  }
+}
+
 onMounted(() => {
+  actualiserNombrePhotos()
   editeur = new EditorView({
     parent: conteneur.value!,
     state: EditorState.create({
@@ -142,6 +171,7 @@ async function ajouterPhoto(e: Event) {
     await enregistrerPhoto(nom, await redimensionner(fichier))
     donnees.enTete.photo = PREFIXE + nom
     remplacerTexte(JSON.stringify(donnees, null, 2), false)
+    actualiserNombrePhotos()
   } catch {
     erreur.value = 'Impossible d’enregistrer la photo dans ce navigateur'
   }
@@ -178,6 +208,9 @@ const bouton =
       <button type="button" :class="bouton" @click="exporter">Exporter</button>
       <button v-if="modifiee" type="button" :class="bouton" @click="emit('reinitialiser')">
         Réinitialiser
+      </button>
+      <button v-if="nombrePhotos > 0" type="button" :class="bouton" @click="viderPhotos">
+        Supprimer les photos ({{ nombrePhotos }})
       </button>
     </div>
 
