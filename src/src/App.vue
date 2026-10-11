@@ -3,6 +3,7 @@ import { ref, computed, watchEffect } from 'vue'
 import BarreOutils from '@/components/BarreOutils.vue'
 import FeuilleCv from '@/components/FeuilleCv.vue'
 import EnTete from '@/components/EnTete.vue'
+import SectionNumerotee from '@/components/SectionNumerotee.vue'
 
 import type { Candidature } from '@/types'
 
@@ -41,6 +42,11 @@ const afficherGrille = ref(false)
   />
   <FeuilleCv :afficher-grille="afficherGrille">
     <EnTete v-bind="cv.enTete" />
+    <SectionNumerotee titre="Profil">
+      <p class="text-justify text-pretty text-[11.5px]" style="line-height: 1.45">
+        {{ cv.profil }}
+      </p>
+    </SectionNumerotee>
   </FeuilleCv>
 </template>
 
