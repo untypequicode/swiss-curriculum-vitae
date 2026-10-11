@@ -17,3 +17,75 @@
   font-style: normal;
   font-display: swap;
 }
+
+:root {
+  color-scheme: light;
+
+  --paper: #f4f3ef;
+  --paper-sunken: #e8e6e0;
+  --ink: #111111;
+  --ink-muted: #55534d;
+  --signal: #087436;
+  --on-signal: #ffffff;
+  --rule-strong: #111111;
+  --rule-soft: #bdbab1;
+  --focus: #087436;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --paper: #121211;
+    --paper-sunken: #1e1e1c;
+    --ink: #f2f0ea;
+    --ink-muted: #aaa79f;
+    --signal: #3ee08a;
+    --on-signal: #111111;
+    --rule-strong: #f2f0ea;
+    --rule-soft: #4a4944;
+    --focus: #3ee08a;
+  }
+}
+
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+
+  --font-sans: 'Archivo', 'Helvetica Neue', Helvetica, Arial, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.25rem;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1rem;
+  --text-label--letter-spacing: 0.08em;
+  --text-label--font-weight: 500;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-paper-sunken: var(--paper-sunken);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-signal: var(--signal);
+  --color-on-signal: var(--on-signal);
+  --color-rule-strong: var(--rule-strong);
+  --color-rule-soft: var(--rule-soft);
+  --color-focus: var(--focus);
+}
+
+@layer base {
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--signal);
+    outline-offset: 3px;
+  }
+}
