@@ -1,4 +1,6 @@
 <script setup lang="ts">
+defineProps<{ nomsCandidatures: string[] }>()
+const candidatureChoisie = defineModel<string>('candidatureChoisie')
 const exporterEnPdf = () => window.print()
 
 const bouton =
@@ -6,7 +8,17 @@ const bouton =
 </script>
 
 <template>
-  <header class="sticky bg-paper-sunken top-0 z-10 flex justify-end gap-2 p-4 print:hidden">
+  <header class="sticky top-0 z-10 flex justify-end gap-2 bg-paper-sunken p-4 print:hidden">
+    <select
+      v-model="candidatureChoisie"
+      :class="bouton"
+      class="bg-transparent text-ink"
+      title="Fichier de src/candidatures/ affiché"
+    >
+      <option v-for="nom in nomsCandidatures" :key="nom" :value="nom">
+        {{ nom }}
+      </option>
+    </select>
     <button :class="bouton" class="bg-ink text-paper" @click="exporterEnPdf">
       Exporter en PDF
     </button>
