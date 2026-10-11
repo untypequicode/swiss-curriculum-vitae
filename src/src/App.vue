@@ -1,31 +1,56 @@
 <script setup lang="ts">
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed, watch, watchEffect } from 'vue'
 import BarreOutils from '@/components/BarreOutils.vue'
+import EditeurJson from '@/components/EditeurJson.vue'
 import FeuilleCv from '@/components/FeuilleCv.vue'
 import EnTete from '@/components/EnTete.vue'
 import SectionNumerotee from '@/components/SectionNumerotee.vue'
 import EntreeCv from '@/components/EntreeCv.vue'
 import ListeCompetences from '@/components/ListeCompetences.vue'
 import ColonnesDeListes from '@/components/ColonnesDeListes.vue'
+import { candidaturesOriginales, nomsCandidatures } from '@/candidatures'
 
 import type { Candidature } from '@/types'
 
-const fichiers = import.meta.glob<Candidature>('./candidatures/*.js', { eager: true })
-const candidatures: Record<string, Candidature> = {}
-for (const [chemin, contenu] of Object.entries(fichiers)) {
-  const nom = (chemin.split('/').pop() ?? chemin).replace('.js', '')
-  candidatures[nom] = contenu
+const CLE_STOCKAGE = 'swiss-cv:modifications'
+
+function lireModifications(): Record<string, Candidature> {
+  try {
+    return JSON.parse(localStorage.getItem(CLE_STOCKAGE) ?? '{}')
+  } catch {
+    return {}
+  }
 }
-const nomsCandidatures = [
-  'default',
-  ...Object.keys(candidatures).filter((nom) => nom !== 'default'),
-]
+const modifications = ref(lireModifications())
+watch(
+  modifications,
+  (valeur) => {
+    try {
+      localStorage.setItem(CLE_STOCKAGE, JSON.stringify(valeur))
+    } catch {}
+  },
+  { deep: true },
+)
 
 const nomDansAdresse = new URLSearchParams(location.search).get('cv')
 const candidatureChoisie = ref(
-  nomDansAdresse && nomDansAdresse in candidatures ? nomDansAdresse : 'default',
+  nomDansAdresse && nomDansAdresse in candidaturesOriginales ? nomDansAdresse : 'default',
 )
-const cv = computed(() => candidatures[candidatureChoisie.value] as Candidature)
+const cv = computed(
+  () =>
+    modifications.value[candidatureChoisie.value] ??
+    (candidaturesOriginales[candidatureChoisie.value] as Candidature),
+)
+const estModifiee = computed(() => candidatureChoisie.value in modifications.value)
+
+function modifier(candidature: Candidature) {
+  modifications.value = { ...modifications.value, [candidatureChoisie.value]: candidature }
+}
+function reinitialiser() {
+  const reste = { ...modifications.value }
+  delete reste[candidatureChoisie.value]
+  modifications.value = reste
+}
 
 watchEffect(() => {
   history.replaceState(null, '', `?cv=${candidatureChoisie.value}`)
@@ -35,42 +60,60 @@ watchEffect(() => {
 })
 
 const afficherGrille = ref(false)
+const afficherEditeur = ref(false)
 </script>
 
 <template>
   <BarreOutils
     v-model:candidature-choisie="candidatureChoisie"
     :noms-candidatures="nomsCandidatures"
+    :editeur-ouvert="afficherEditeur"
     @basculer-grille="afficherGrille = !afficherGrille"
+    @basculer-editeur="afficherEditeur = !afficherEditeur"
   />
-  <FeuilleCv :afficher-grille="afficherGrille">
-    <EnTete v-bind="cv.enTete" />
-    <SectionNumerotee titre="Profil">
-      <p class="text-justify text-pretty text-[11.5px]" style="line-height: 1.45">
-        {{ cv.profil }}
-      </p>
-    </SectionNumerotee>
+  <div class="flex items-start justify-center gap-6 px-6 print:block print:p-0">
+    <EditeurJson
+      v-if="afficherEditeur"
+      :candidature="cv"
+      :nom="candidatureChoisie"
+      :modifiee="estModifiee"
+      class="sticky top-24 my-6 h-[calc(100vh-8rem)] w-md shrink-0"
+      @modifier="modifier"
+      @reinitialiser="reinitialiser"
+    />
+    <FeuilleCv :afficher-grille="afficherGrille">
+      <EnTete v-bind="cv.enTete" />
+      <SectionNumerotee v-if="cv.profil" titre="Profil">
+        <p class="text-justify text-pretty text-[11.5px]" style="line-height: 1.45">
+          {{ cv.profil }}
+        </p>
+      </SectionNumerotee>
 
-    <SectionNumerotee titre="Formations">
-      <EntreeCv v-for="formation in cv.formations" :key="formation.titre" v-bind="formation" />
-    </SectionNumerotee>
+      <SectionNumerotee v-if="cv.formations?.length" titre="Formations">
+        <EntreeCv v-for="formation in cv.formations" :key="formation.titre" v-bind="formation" />
+      </SectionNumerotee>
 
-    <SectionNumerotee v-if="cv.projets?.length" titre="Projets">
-      <EntreeCv v-for="projet in cv.projets" :key="projet.titre" v-bind="projet" />
-    </SectionNumerotee>
+      <SectionNumerotee v-if="cv.projets?.length" titre="Projets">
+        <EntreeCv v-for="projet in cv.projets" :key="projet.titre" v-bind="projet" />
+      </SectionNumerotee>
 
-    <SectionNumerotee titre="Expériences">
-      <EntreeCv v-for="experience in cv.experiences" :key="experience.titre" v-bind="experience" />
-    </SectionNumerotee>
+      <SectionNumerotee v-if="cv.experiences?.length" titre="Expériences">
+        <EntreeCv
+          v-for="experience in cv.experiences"
+          :key="experience.titre"
+          v-bind="experience"
+        />
+      </SectionNumerotee>
 
-    <SectionNumerotee titre="Compétences">
-      <ListeCompetences :competences="cv.competences" />
-    </SectionNumerotee>
+      <SectionNumerotee v-if="cv.competences?.length" titre="Compétences">
+        <ListeCompetences :competences="cv.competences" />
+      </SectionNumerotee>
 
-    <SectionNumerotee titre="Infos complémentaires">
-      <ColonnesDeListes :colonnes="cv.infosComplementaires" />
-    </SectionNumerotee>
-  </FeuilleCv>
+      <SectionNumerotee v-if="cv.infosComplementaires?.length" titre="Infos complémentaires">
+        <ColonnesDeListes :colonnes="cv.infosComplementaires" />
+      </SectionNumerotee>
+    </FeuilleCv>
+  </div>
 </template>
 
 <style scoped></style>

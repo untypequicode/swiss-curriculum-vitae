@@ -1,7 +1,7 @@
 <script setup lang="ts">
-defineProps<{ nomsCandidatures: string[] }>()
+defineProps<{ nomsCandidatures: string[]; editeurOuvert: boolean }>()
 const candidatureChoisie = defineModel<string>('candidatureChoisie')
-const emit = defineEmits(['basculer-grille'])
+const emit = defineEmits(['basculer-grille', 'basculer-editeur'])
 const exporterEnPdf = () => window.print()
 
 const bouton =
@@ -24,6 +24,14 @@ const bouton =
       </option>
     </select>
 
+    <button
+      :class="bouton"
+      class="bg-transparent text-ink"
+      :aria-pressed="editeurOuvert"
+      @click="emit('basculer-editeur')"
+    >
+      Éditer
+    </button>
     <button :class="bouton" class="bg-transparent text-ink" @click="emit('basculer-grille')">
       Grille
     </button>

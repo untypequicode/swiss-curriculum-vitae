@@ -60,6 +60,7 @@
     --signal: oklch(0.804 0.18 154.9);
     --on-signal: oklch(0.178 0 0);
     --focus: oklch(0.804 0.18 154.9);
+    --ink-muted: oklch(0.72 0.01 95);
   }
 }
 
