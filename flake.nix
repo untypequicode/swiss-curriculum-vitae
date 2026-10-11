@@ -20,7 +20,10 @@
           packages = [
             pkgs.nodejs
             pkgs.pnpm
+
+            (pkgs.writeShellScriptBin "zed" ''exec zeditor "$@"'')
           ];
+          LAUNCH_EDITOR = "zed";
         };
       });
     };
