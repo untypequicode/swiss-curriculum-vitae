@@ -1,0 +1,12 @@
+{
+  "prettier": {
+    "parser": ""
+  },
+  "format_on_save": "on",
+  "formatter": {
+    "external": {
+      "command": "direnv",
+      "arguments": ["exec", ".", "src/node_modules/.bin/oxfmt", "--stdin-filepath", "{buffer_path}"]
+    }
+  }
+}
