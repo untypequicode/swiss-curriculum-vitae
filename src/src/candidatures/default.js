@@ -4,7 +4,7 @@ export const enTete = {
   disponibilite: 'Disponibilités',
   photoCover: true,
   nom: 'Prénom Nom',
-  photo: 'photo.jpg',
+  photo: 'img/photo.jpg',
   coordonnees: [
     { texte: 'prenom.nom@exemple.com', lien: 'mailto:prenom.nom@exemple.com' },
     { texte: '+33 0 00 00 00 00', lien: 'tel:+33000000000' },
