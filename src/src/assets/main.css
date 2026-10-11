@@ -1,8 +1,8 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @font-face {
-  font-family: "Archivo";
-  src: url("/fonts/Archivo-Variable.woff2");
+  font-family: 'Archivo';
+  src: url('/fonts/Archivo-Variable.woff2');
   font-weight: 100 900;
   font-stretch: 62% 125%;
   font-style: normal;
@@ -10,8 +10,8 @@
 }
 
 @font-face {
-  font-family: "Jetbrains Mono";
-  src: url("/fonts/JetBrainsMono-Variable.woff2");
+  font-family: 'Jetbrains Mono';
+  src: url('/fonts/JetBrainsMono-Variable.woff2');
   font-weight: 100 800;
   font-stretch: 62% 125%;
   font-style: normal;
