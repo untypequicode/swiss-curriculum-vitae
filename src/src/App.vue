@@ -4,6 +4,7 @@ import BarreOutils from '@/components/BarreOutils.vue'
 import FeuilleCv from '@/components/FeuilleCv.vue'
 import EnTete from '@/components/EnTete.vue'
 import SectionNumerotee from '@/components/SectionNumerotee.vue'
+import EntreeCv from '@/components/EntreeCv.vue'
 
 import type { Candidature } from '@/types'
 
@@ -46,6 +47,18 @@ const afficherGrille = ref(false)
       <p class="text-justify text-pretty text-[11.5px]" style="line-height: 1.45">
         {{ cv.profil }}
       </p>
+    </SectionNumerotee>
+
+    <SectionNumerotee titre="Formations">
+      <EntreeCv v-for="formation in cv.formations" :key="formation.titre" v-bind="formation" />
+    </SectionNumerotee>
+
+    <SectionNumerotee v-if="cv.projets?.length" titre="Projets">
+      <EntreeCv v-for="projet in cv.projets" :key="projet.titre" v-bind="projet" />
+    </SectionNumerotee>
+
+    <SectionNumerotee titre="Expériences">
+      <EntreeCv v-for="experience in cv.experiences" :key="experience.titre" v-bind="experience" />
     </SectionNumerotee>
   </FeuilleCv>
 </template>

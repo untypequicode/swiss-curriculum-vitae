@@ -10,6 +10,8 @@ export interface Entree {
   details?: string
   description?: string
   puces?: string[]
+  note?: string
+  pucesSurUneLigne?: boolean
 }
 
 export interface Candidature {
