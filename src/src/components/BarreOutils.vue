@@ -1,6 +1,7 @@
 <script setup lang="ts">
 defineProps<{ nomsCandidatures: string[] }>()
 const candidatureChoisie = defineModel<string>('candidatureChoisie')
+const emit = defineEmits(['basculer-grille'])
 const exporterEnPdf = () => window.print()
 
 const bouton =
@@ -8,7 +9,10 @@ const bouton =
 </script>
 
 <template>
-  <header class="sticky top-0 z-10 flex justify-end gap-2 bg-paper-sunken p-4 print:hidden">
+  <header
+    class="sticky top-0 z-10 flex items-center justify-end gap-2 bg-paper-sunken p-4 print:hidden"
+  >
+    <h1 class="wordmark mr-auto text-[1.25rem]">Swiss Curriculum Vitae</h1>
     <select
       v-model="candidatureChoisie"
       :class="bouton"
@@ -19,6 +23,10 @@ const bouton =
         {{ nom }}
       </option>
     </select>
+
+    <button :class="bouton" class="bg-transparent text-ink" @click="emit('basculer-grille')">
+      Grille
+    </button>
     <button :class="bouton" class="bg-ink text-paper" @click="exporterEnPdf">
       Exporter en PDF
     </button>

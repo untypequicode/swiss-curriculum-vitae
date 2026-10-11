@@ -2,7 +2,7 @@ export const enTete = {
   titre: 'Titre',
   sousTitre: 'Sous-titre',
   disponibilite: 'Disponibilités',
-  photoFormat: 'carre',
+  photoCover: true,
   nom: 'Prénom Nom',
   photo: 'photo.jpg',
   coordonnees: [

@@ -17,7 +17,7 @@ export interface Candidature {
     titre: string
     sousTitre?: string
     disponibilite?: string
-    photoFormat?: 'carre' | 'cover'
+    photoCover?: boolean
     nom: string
     photo?: string
     coordonnees?: Coordonnee[]

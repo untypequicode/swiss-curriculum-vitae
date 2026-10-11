@@ -2,6 +2,7 @@
 import { ref, computed, watchEffect } from 'vue'
 import BarreOutils from '@/components/BarreOutils.vue'
 import FeuilleCv from '@/components/FeuilleCv.vue'
+import EnTete from '@/components/EnTete.vue'
 
 import type { Candidature } from '@/types'
 
@@ -28,14 +29,19 @@ watchEffect(() => {
   document.title =
     candidatureChoisie.value === 'default' ? nomPdf : `${nomPdf} - ${candidatureChoisie.value}`
 })
+
+const afficherGrille = ref(false)
 </script>
 
 <template>
   <BarreOutils
     v-model:candidature-choisie="candidatureChoisie"
     :noms-candidatures="nomsCandidatures"
+    @basculer-grille="afficherGrille = !afficherGrille"
   />
-  <FeuilleCv />
+  <FeuilleCv :afficher-grille="afficherGrille">
+    <EnTete v-bind="cv.enTete" />
+  </FeuilleCv>
 </template>
 
 <style scoped></style>
