@@ -5,7 +5,7 @@ defineProps<Entree>()
 </script>
 
 <template>
-  <article class="grid grid-cols-12 gap-4">
+  <article class="grid grid-cols-10 gap-4">
     <p class="col-span-2 font-mono text-[9.5px] leading-normal pt-px text-ink-muted">{{ date }}</p>
     <div class="col-span-8">
       <h3 class="text-[12px] font-semibold leading-[1.3]">{{ titre }}</h3>
