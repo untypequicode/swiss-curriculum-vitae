@@ -5,7 +5,7 @@ defineProps<Candidature['enTete']>()
 </script>
 
 <template>
-  <section class="grid grid-cols-12 items-stretch gap-4">
+  <header class="grid grid-cols-12 items-stretch gap-4">
     <div class="col-span-7 flex flex-col justify-between gap-2">
       <p class="text-[30px] leading-none font-semibold tracking-[-0.04em] whitespace-pre-line">
         {{ titre }}
@@ -44,5 +44,5 @@ defineProps<Candidature['enTete']>()
         :class="{ 'absolute inset-0': photoCover }"
       />
     </div>
-  </section>
+  </header>
 </template>
