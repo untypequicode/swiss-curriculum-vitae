@@ -12,6 +12,7 @@ import {
 import { json } from '@codemirror/lang-json'
 import { tags } from '@lezer/highlight'
 import { verifierCandidature } from '@/utils/verifierCandidature'
+import { enregistrerPhoto, nomDePhoto, PREFIXE, redimensionner } from '@/utils/photosLocales'
 import type { Candidature } from '@/types'
 
 const props = defineProps<{ candidature: Candidature; nom: string; modifiee: boolean }>()
@@ -118,6 +119,34 @@ async function importer(e: Event) {
   if (fichier) remplacerTexte(await fichier.text(), false)
 }
 
+async function ajouterPhoto(e: Event) {
+  const entree = e.target as HTMLInputElement
+  const fichier = entree.files?.[0]
+  entree.value = ''
+  if (!fichier || !editeur) return
+
+  let donnees: { enTete?: Record<string, unknown> }
+  try {
+    donnees = JSON.parse(editeur.state.doc.toString())
+  } catch {
+    erreur.value = 'Corrigez le JSON avant d’ajouter une photo'
+    return
+  }
+  if (!donnees?.enTete) {
+    erreur.value = 'Corrigez le JSON avant d’ajouter une photo : « enTete » est manquant'
+    return
+  }
+
+  try {
+    const nom = `${nomDePhoto(fichier.name)}.jpg`
+    await enregistrerPhoto(nom, await redimensionner(fichier))
+    donnees.enTete.photo = PREFIXE + nom
+    remplacerTexte(JSON.stringify(donnees, null, 2), false)
+  } catch {
+    erreur.value = 'Impossible d’enregistrer la photo dans ce navigateur'
+  }
+}
+
 function exporter() {
   const lien = document.createElement('a')
   lien.href = URL.createObjectURL(
@@ -141,6 +170,10 @@ const bouton =
       <label :class="bouton" class="inline-flex items-center">
         Importer
         <input type="file" accept=".json,application/json" class="sr-only" @change="importer" />
+      </label>
+      <label :class="bouton" class="inline-flex items-center">
+        Photo
+        <input type="file" accept="image/*" class="sr-only" @change="ajouterPhoto" />
       </label>
       <button type="button" :class="bouton" @click="exporter">Exporter</button>
       <button v-if="modifiee" type="button" :class="bouton" @click="emit('reinitialiser')">

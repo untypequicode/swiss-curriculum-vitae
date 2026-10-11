@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { useUrlPhoto } from '@/utils/photosLocales'
 import type { Candidature } from '@/types'
 
-defineProps<Candidature['enTete']>()
+const props = defineProps<Candidature['enTete']>()
+const urlPhoto = useUrlPhoto(() => props.photo)
 </script>
 
 <template>
@@ -38,7 +40,8 @@ defineProps<Candidature['enTete']>()
       :class="photoCover ? 'relative' : 'aspect-square self-end'"
     >
       <img
-        :src="photo"
+        v-if="urlPhoto"
+        :src="urlPhoto"
         :alt="`Photo de ${nom}`"
         class="block h-full w-full object-cover object-[50%_40%]"
         :class="{ 'absolute inset-0': photoCover }"

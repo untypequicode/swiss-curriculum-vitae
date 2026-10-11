@@ -33,3 +33,4 @@ Le bouton **Éditer** ouvre un panneau avec le JSON du CV. L'aperçu se met à j
 - Les modifications sont enregistrées dans le navigateur (`localStorage`), par candidature. Elles ne quittent pas votre appareil.
 - **Exporter** télécharge le JSON, **Importer** en charge un. C'est la sauvegarde à garder, car vider les données du navigateur efface les modifications.
 - **Réinitialiser** revient à la version du fichier du projet.
+- **Photo** ajoute une image depuis votre ordinateur. Elle est réduite à 800 px, gardée dans le navigateur (IndexedDB) et référencée dans le JSON par `"photo": "local:nom.jpg"`. Elle n'est pas incluse dans l'export JSON : sur un autre navigateur, il faut la rajouter.
