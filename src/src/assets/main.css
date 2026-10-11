@@ -17,7 +17,8 @@
   font-display: swap;
 }
 
-:root {
+:root,
+.theme-clair {
   color-scheme: light;
 
   --paper: oklch(0.964 0.005 95.1);
@@ -32,6 +33,19 @@
 
   --ink-muted: oklch(0.48 0.008 260);
   --ink-soft: oklch(0.38 0.008 260);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+
+    --paper: oklch(0.182 0.002 106.6);
+    --paper-sunken: oklch(0.234 0.004 106.7);
+    --ink: oklch(0.955 0.008 91.5);
+    --signal: oklch(0.804 0.18 154.9);
+    --on-signal: oklch(0.178 0 0);
+    --focus: oklch(0.804 0.18 154.9);
+  }
 }
 
 @theme {
@@ -116,4 +130,11 @@
 @page {
   size: A4;
   margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    background: var(--white);
+  }
 }

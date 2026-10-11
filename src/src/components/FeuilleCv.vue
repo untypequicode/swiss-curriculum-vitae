@@ -6,7 +6,7 @@ defineProps({
 
 <template>
   <main
-    class="relative my-6 mx-auto p-5 overflow-hidden flex flex-col bg-white text-ink text-[11px] leading-[1.3] antialiased [font-variant-ligatures:none] [&_a:hover]:text-signal"
+    class="theme-clair relative my-6 mx-auto p-5 overflow-hidden flex flex-col bg-white text-ink text-[11px] leading-[1.3] antialiased [font-variant-ligatures:none] [&_a:hover]:text-signal"
     style="width: 210mm; height: 297mm; counter-reset: numero-section"
     id="feuille"
   >
